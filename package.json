@@ -22,12 +22,12 @@
   },
   "jsnext:main": "index",
   "bugs": {
-    "url": "https://github.com/taethni/org-hart/issues"
+    "url": "https://github.com/taethni/org-chart/issues"
   },
-  "homepage": "https://github.com/taethni/org-hart#readme",
+  "homepage": "https://github.com/taethni/org-chart#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taethni/org-hart.git"
+    "url": "git+https://github.com/taethni/org-chart.git"
   },
   "scripts": {
     "start": "nodemon ",
