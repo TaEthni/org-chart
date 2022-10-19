@@ -27,7 +27,7 @@
   "homepage": "https://github.com/bumbeishvili/d3-organization-chart#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bumbeishvili/d3-organization-chart.git"
+    "url": "git+https://github.com/bumbeishvili/d3-organization-chart.git"
   },
   "scripts": {
     "start": "nodemon ",
@@ -56,5 +56,9 @@
     "d3-zoom": "3",
     "d3-shape": "3",
     "d3-flextree": "2.1.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "joelcoxokc"
 }
