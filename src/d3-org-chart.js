@@ -1,9 +1,9 @@
-import { selection, select } from "d3-selection";
-import { max, min, sum, cumsum } from "d3-array";
-import { tree, stratify } from "d3-hierarchy";
-import { zoom, zoomIdentity } from "d3-zoom";
+import { cumsum, max, min, sum } from 'd3-array';
 import { flextree } from 'd3-flextree';
+import { stratify, tree } from 'd3-hierarchy';
+import { select, selection } from 'd3-selection';
 import { linkHorizontal } from 'd3-shape';
+import { zoom, zoomIdentity } from 'd3-zoom';
 
 const d3 = {
     selection,
@@ -469,6 +469,38 @@ export class OrgChart {
         });
 
         this.initializeEnterExitUpdatePattern();
+    }
+
+    actions(actions) {
+
+        /* 
+            interface action {
+                selector: string; // css selector for the element within nodeContent
+                onClick?: (event, node, state) => void // on Click Callback
+                onHover?: (event, node, state) => void // on Hover Callback
+            }
+         */
+        const attrs = this.getChartState();
+        const actionsMap = {};
+        attrs.actions = [];
+
+        actions.forEach((action, i) => {
+            if (!action.onClick && !action.onHover) {
+                throw new Error('Action requiers an event handler. Either [onClick] or [onHover]');
+            }
+            
+            if (!action.selector) {
+                throw new Error('Action requiers a selector');
+            }
+            
+            if (actionsMap[action.selector]) {
+                throw new Error(`Action with selector [${action.selector}] already exists`);
+            }
+
+            attrs.actions.push(action);
+        });
+
+        return this;
     }
 
     initializeEnterExitUpdatePattern() {
@@ -1102,6 +1134,24 @@ export class OrgChart {
                     this.onButtonClick(event, d)
                 }
             });
+
+        if (attrs.actions) {
+            attrs.actions.forEach(action => {
+                const selected = nodeEnter.select(action.selector);
+                if (action.onClick) {
+                    selected.on('click', (event, d) => {
+                        event.stopPropagation();
+                        action.onClick(event, d, attrs);
+                    });
+                }
+                if (action.onHover) {
+                    selected.on('mouseenter', (event, d) => {
+                        event.stopPropagation();
+                        action.onHover(event, d, attrs);
+                    });
+                }
+            })
+        }
 
         nodeButtonGroups.patternify({
             tag: 'rect',
