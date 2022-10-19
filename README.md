@@ -4,7 +4,8 @@
 
 ## FORKED FROM [https://github.com/bumbeishvili/org-chart](https://github.com/bumbeishvili/org-chart)
 
-> This package is a driect for from bumbeishvili org chart. We forked it for our internal use at TaEthni.
+> This package is a driect FORK from bumbeishvili org chart. We forked it for our internal use at TaEthni.
+
 > Here is a link to the MIT license [https://github.com/TaEthni/org-chart/blob/master/misc/LICENSE.md](https://github.com/TaEthni/org-chart/blob/master/misc/LICENSE.md);
 
 
