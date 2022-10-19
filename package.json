@@ -22,12 +22,12 @@
   },
   "jsnext:main": "index",
   "bugs": {
-    "url": "https://github.com/bumbeishvili/d3-organization-chart/issues"
+    "url": "https://github.com/taethni/org-hart/issues"
   },
-  "homepage": "https://github.com/bumbeishvili/d3-organization-chart#readme",
+  "homepage": "https://github.com/taethni/org-hart#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bumbeishvili/d3-organization-chart.git"
+    "url": "git+https://github.com/taethni/org-hart.git"
   },
   "scripts": {
     "start": "nodemon ",
