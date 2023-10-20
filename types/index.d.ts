@@ -230,7 +230,7 @@ export interface StatePublic<Datum> {
     onZoomEnd: (event: any) => void;
 
     /** Callback for node click */
-    onNodeClick: (event: Event, node: HierarchyNode<Datum>) => void;
+    onNodeClick: (node: HierarchyNode<Datum>, event: Event) => void;
     /**
      * Callback for node expand or collapse
      * @param node
