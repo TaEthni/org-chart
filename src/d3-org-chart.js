@@ -76,6 +76,9 @@ export class OrgChart {
             onNodeClick: (d, event) => d, // Callback for node click
             onExpandOrCollapse: (d) => d, // Callback for node expand or collapse
             handleButtonClick: (d, event, onComplete) => onComplete(),
+            loadChildren: (d, onComplete) => onComplete(),
+            hasChildren: (d) => false,
+            afterUpdate: () => d,
 
             /*
             * Node HTML content generation , remember that you can access some helper methods:
@@ -708,6 +711,25 @@ export class OrgChart {
         return this;
     }
 
+    // Based on addNode to avoid triggering an update after every single addition
+    addNodes(nodes) {
+        for (const obj of nodes) {
+            const attrs = this.getChartState();
+            if (attrs.allNodes.some(({ data }) => attrs.nodeId(data) === attrs.nodeId(obj))) {
+                console.log(`ORG CHART - ADD - Node with id "${attrs.nodeId(obj)}" already exists in tree`);
+                return this;
+            }
+            if (!attrs.allNodes.some(({ data }) => attrs.nodeId(data) === attrs.parentNodeId(obj))) {
+                console.log(`ORG CHART - ADD - Parent node with id "${attrs.parentNodeId(obj)}" not found in the tree`);
+                return this;
+            }
+            if ((obj)._centered && !(obj)._expanded) (obj)._expanded = true;
+            attrs.data.push(obj);
+        }
+        this.updateNodesState();
+        return this;
+    }
+
     // This function can be invoked via chart.removeNode API, and it removes node from tree at runtime
     removeNode(nodeId) {
         const attrs = this.getChartState();
@@ -1262,6 +1284,15 @@ export class OrgChart {
             })
         }
 
+        attrs.afterUpdate();
+        const container = select(this.getChartState().container).node();
+        if (container)
+            for (const node of container.querySelectorAll(".node-button-g")) {
+                if (node.querySelector(".node-button-div")?.childElementCount) {
+                    node.removeAttribute("display");
+                    node.removeAttribute("opacity");
+                }
+            }
     }
 
     // This function detects whether current browser is edge
@@ -1302,11 +1333,27 @@ export class OrgChart {
             })
     }
 
+    onButtonClickLazyLoad(event, d, onComplete) {
+        if (!d.children && !d._children && attrs.hasChildren(d.data)) {
+            attrs.loadChildren(d.data)
+                .then(nodes => {
+                    this.addNodes(nodes.map(node => {
+                        node._expanded = true;
+                        return node;
+                    }));
+                    onComplete();
+                });
+        }
+        else {
+            onComplete();
+        }
+    }
+
     // Toggle children on click.
     onButtonClick(event, d) {
         const attrs = this.getChartState();
 
-        attrs.handleButtonClick(event, d, () => {
+        this.onButtonClickLazyLoad(event, d, () => {
             if (d.data._pagingButton) {
                 return;
             }
