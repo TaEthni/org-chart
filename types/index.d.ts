@@ -235,7 +235,7 @@ export interface StatePublic<Datum> {
     /** Callback for expandButtonClick */
     handleButtonClick: (node: HierarchyNode<Datum>, event: Event, onComplete: () => void) => void,
 
-    loadChildren: (node: HierarchyNode<Datum>, onComplete: () => void) => onComplete(),
+    loadChildren: (node: HierarchyNode<Datum>, onComplete: () => void) => void,
     hasChildren: (node: HierarchyNode<Datum>) => false,
     afterUpdate: () => d,
 
