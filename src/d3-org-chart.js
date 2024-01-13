@@ -75,6 +75,7 @@ export class OrgChart {
             onZoomEnd: e => { }, // Callback for zoom & panning end
             onNodeClick: (d, event) => d, // Callback for node click
             onExpandOrCollapse: (d) => d, // Callback for node expand or collapse
+            handleButtonClick: (d, event, onComplete) => onComplete(),
 
             /*
             * Node HTML content generation , remember that you can access some helper methods:
@@ -1304,39 +1305,43 @@ export class OrgChart {
     // Toggle children on click.
     onButtonClick(event, d) {
         const attrs = this.getChartState();
-        if (d.data._pagingButton) {
-            return;
-        }
-        if (attrs.setActiveNodeCentered) {
-            d.data._centered = true;
-            d.data._centeredWithDescendants = true;
-        }
 
-        // If childrens are expanded
-        if (d.children) {
-            //Collapse them
-            d._children = d.children;
-            d.children = null;
-
-            // Set descendants expanded property to false
-            this.setExpansionFlagToChildren(d, false);
-        } else {
-            // Expand children
-            d.children = d._children;
-            d._children = null;
-
-            // Set each children as expanded
-            if (d.children) {
-                d.children.forEach(({ data }) => (data._expanded = true));
+        attrs.handleButtonClick(event, d, () => {
+            if (d.data._pagingButton) {
+                return;
             }
-        }
+            if (attrs.setActiveNodeCentered) {
+                d.data._centered = true;
+                d.data._centeredWithDescendants = true;
+            }
+    
+            // If childrens are expanded
+            if (d.children) {
+                //Collapse them
+                d._children = d.children;
+                d.children = null;
+    
+                // Set descendants expanded property to false
+                this.setExpansionFlagToChildren(d, false);
+            } else {
+                // Expand children
+                d.children = d._children;
+                d._children = null;
+    
+                // Set each children as expanded
+                if (d.children) {
+                    d.children.forEach(({ data }) => (data._expanded = true));
+                }
+            }
+    
+            // Redraw Graph
+            this.update(d);
+            event.stopPropagation();
+    
+            // Trigger callback
+            attrs.onExpandOrCollapse(d);
+        })
 
-        // Redraw Graph
-        this.update(d);
-        event.stopPropagation();
-
-        // Trigger callback
-        attrs.onExpandOrCollapse(d);
 
     }
 

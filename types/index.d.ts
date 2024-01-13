@@ -231,6 +231,9 @@ export interface StatePublic<Datum> {
 
     /** Callback for node click */
     onNodeClick: (node: HierarchyNode<Datum>, event: Event) => void;
+    
+    /** Callback for expandButtonClick */
+    handleButtonClick: (d, event, onComplete) => void,
     /**
      * Callback for node expand or collapse
      * @param node
