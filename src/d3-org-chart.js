@@ -78,7 +78,7 @@ export class OrgChart {
             handleButtonClick: (d, event, onComplete) => onComplete(),
             loadChildren: (d, onComplete) => onComplete(),
             hasChildren: (d) => false,
-            afterUpdate: () => d,
+            afterUpdate: () => { /* nop */},
 
             /*
             * Node HTML content generation , remember that you can access some helper methods:
