@@ -1338,7 +1338,7 @@ export class OrgChart {
         const attrs = this.getChartState();
 
         if (d.children) {
-            onComplete();
+            return onComplete();
         }
 
         if (attrs.enableLazyLoad() && attrs.hasChildren(d.data)) {
