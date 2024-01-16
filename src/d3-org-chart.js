@@ -1190,17 +1190,10 @@ export class OrgChart {
             const y = attrs.layoutBindings[attrs.layout].buttonY({ width, height });
             return `translate(${x},${y})`
         })
-            .attr("display", ({data}) => {
-                if (attrs.hasChildren({data})) {
-                    return null;
-                } else {
-                    return data._directSubordinates > 0 ? null : 'none';
-                }
+            .attr("display", ({ data }) => {
+                return data._directSubordinates > 0 ? null : 'none';
             })
             .attr("opacity", ({ data, children, _children }) => {
-                if (attrs.hasChildren({ data, children, _children })) {{
-                    return 1;
-                }}
                 if (data._pagingButton) {
                     return 0;
                 }
