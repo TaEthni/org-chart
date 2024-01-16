@@ -236,7 +236,7 @@ export interface StatePublic<Datum> {
     handleButtonClick: (node: HierarchyNode<Datum>, event: Event, onComplete: () => void) => void,
     
     /** Callback for loadChildren */
-    loadChildren: (node: Datum, onComplete: () => void) => void,
+    loadChildren: (node: Datum, onComplete: (nodes: Datum[]) => void) => void,
 
     /** Callback for Checking if s node has children */
     hasChildren: (node: Datum) => boolean,
