@@ -77,7 +77,7 @@ export class OrgChart {
             onExpandOrCollapse: (d) => d, // Callback for node expand or collapse
             handleButtonClick: (d, event, onComplete) => onComplete(),
             loadChildren: (d, onComplete) => onComplete(),
-            hasChildren: (d) => false,
+            hasChildren: (d) => d._children || d.children,
             afterUpdate: () => { /* nop */},
 
             /*
