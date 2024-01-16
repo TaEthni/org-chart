@@ -1286,14 +1286,14 @@ export class OrgChart {
         }
 
         attrs.afterUpdate();
-        // const container = select(this.getChartState().container).node();
-        // if (container)
-        //     for (const node of container.querySelectorAll(".node-button-g")) {
-        //         if (node.querySelector(".node-button-div")?.childElementCount) {
-        //             node.removeAttribute("display");
-        //             node.removeAttribute("opacity");
-        //         }
-        //     }
+        const container = select(this.getChartState().container).node();
+        if (container)
+            for (const node of container.querySelectorAll(".node-button-g")) {
+                if (node.querySelector(".node-button-div")?.childElementCount) {
+                    node.removeAttribute("display");
+                    node.removeAttribute("opacity");
+                }
+            }
     }
 
     // This function detects whether current browser is edge
