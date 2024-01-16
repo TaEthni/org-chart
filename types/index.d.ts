@@ -423,6 +423,7 @@ export class OrgChart<Datum> {
      * @param node
      */
     addNode(node: Datum): this;
+    addNodes(nodes: Datum[]): this;
 
     /**
      * This function can be invoked via chart.removeNode API, and it removes node from tree at runtime
