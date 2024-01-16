@@ -236,10 +236,10 @@ export interface StatePublic<Datum> {
     handleButtonClick: (node: HierarchyNode<Datum>, event: Event, onComplete: () => void) => void,
     
     /** Callback for loadChildren */
-    loadChildren: (node: HierarchyNode<Datum>, onComplete: () => void) => void,
+    loadChildren: (node: Datum, onComplete: () => void) => void,
 
     /** Callback for Checking if s node has children */
-    hasChildren: (node: HierarchyNode<Datum>) => boolean,
+    hasChildren: (node: Datum) => boolean,
 
     /** Callback for after the data is updated */
     afterUpdate: () => void,
