@@ -718,11 +718,11 @@ export class OrgChart {
             const attrs = this.getChartState();
             if (attrs.allNodes.some(({ data }) => attrs.nodeId(data) === attrs.nodeId(obj))) {
                 console.log(`ORG CHART - ADD - Node with id "${attrs.nodeId(obj)}" already exists in tree`);
-                return this;
+                continue;
             }
             if (!attrs.allNodes.some(({ data }) => attrs.nodeId(data) === attrs.parentNodeId(obj))) {
                 console.log(`ORG CHART - ADD - Parent node with id "${attrs.parentNodeId(obj)}" not found in the tree`);
-                return this;
+                continue;
             }
             if ((obj)._centered && !(obj)._expanded) (obj)._expanded = true;
             attrs.data.push(obj);
