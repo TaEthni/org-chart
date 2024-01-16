@@ -1334,6 +1334,8 @@ export class OrgChart {
     }
 
     onButtonClickLazyLoad(event, d, onComplete) {
+        const attrs = this.getChartState();
+        
         if (!d.children && !d._children && attrs.hasChildren(d.data)) {
             attrs.loadChildren(d.data)
                 .then(nodes => {
