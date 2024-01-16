@@ -78,6 +78,7 @@ export class OrgChart {
             handleButtonClick: (d, event, onComplete) => onComplete(),
             loadChildren: (d, onComplete) => onComplete(),
             hasChildren: (d) => d._children || d.children,
+            enableLazyLoad: () => false,
             afterUpdate: () => { /* nop */},
 
             /*
@@ -1336,7 +1337,7 @@ export class OrgChart {
     onButtonClickLazyLoad(event, d, onComplete) {
         const attrs = this.getChartState();
 
-        if (!d.children && !d._children && attrs.hasChildren(d.data)) {
+        if (attrs.enableLazyLoad() && attrs.hasChildren(d.data)) {
             attrs.loadChildren(d.data, (nodes) => {
                 this.addNodes(nodes.map(node => {
                     node._expanded = true;

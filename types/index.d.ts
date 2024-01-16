@@ -240,6 +240,7 @@ export interface StatePublic<Datum> {
 
     /** Callback for Checking if s node has children */
     hasChildren: (node: Datum) => boolean,
+    enableLazyLoad: () => boolean,
 
     /** Callback for after the data is updated */
     afterUpdate: () => void,
