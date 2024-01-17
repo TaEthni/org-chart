@@ -1,6 +1,6 @@
 {
   "name": "@taethni/d3-org-chart",
-  "version": "3.15.15",
+  "version": "3.15.16",
   "module": "index",
   "description": "Highly customizable org chart, created with d3",
   "keywords": [
