@@ -474,10 +474,10 @@ export class OrgChart {
             };
         });
 
-        this.data = function(data) {
-            attrs.data = data;
-            attrs.index = keyBy(data, x => x.id);
-        }
+        // this.data = function(data) {
+        //     attrs.data = data;
+        //     attrs.index = keyBy(data, x => x.id);
+        // }
 
         this.initializeEnterExitUpdatePattern();
     }
