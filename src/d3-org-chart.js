@@ -762,7 +762,7 @@ export class OrgChart {
         const missingNodesInData = nodes.filter(x => !this.getNode(x.id));
         attrs.data = [...data, ...missingNodesInData];
         attrs.index = keyBy(attrs.data, x => attrs.nodeId(x));
-        this.data.forEach(node => {
+        attrs.data.forEach(node => {
             if (!this.getNode(attrs.parentId(node))) {
                 node.parentId = root.data.id;
             }
