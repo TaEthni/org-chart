@@ -424,7 +424,19 @@ export class OrgChart<Datum> {
      * @param node
      */
     addNode(node: Datum): this;
+
+    /**
+     * This function can be invoked via chart.addNodes API, and it adds multiple nodes in tree at runtime
+     * @param nodes
+     */
     addNodes(nodes: Datum[]): this;
+
+    /**
+     * This function can be invoked via chart.insertNodes API, and it inserts multiple nodes in the tree at runtime
+     * @param nodes
+     * @returns all the nodes of the tree
+     */
+    insertNodes(nodes: Datum[]): Datum[];
 
     /**
      * This function can be invoked via chart.removeNode API, and it removes node from tree at runtime

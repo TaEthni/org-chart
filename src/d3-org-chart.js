@@ -731,6 +731,16 @@ export class OrgChart {
         return this;
     }
 
+    insertNodes(nodes) {
+        const attrs = this.getChartState();
+        const nodesById = {};
+        nodes.forEach(node => nodesById[node.id] = node);
+        const data = attrs.data.filter(x => !nodesById[x.id]);
+        this.data = [...data, ...nodes];
+        this.chart.updateNodesState();
+        return this.data;
+    }
+
     // This function can be invoked via chart.removeNode API, and it removes node from tree at runtime
     removeNode(nodeId) {
         const attrs = this.getChartState();
