@@ -43,6 +43,7 @@ export class OrgChart {
             svgWidth: 800,   // Configure svg width
             svgHeight: window.innerHeight - 100,  // Configure svg height
             container: "body",  // Set parent container, either CSS style selector or DOM element
+            index: {},
             data: null, // Set data, it must be an array of objects, where hierarchy is clearly defined via id and parent ID (property names are configurable)
             connections: [], // Sets connection data, array of objects, SAMPLE:  [{from:"145",to:"201",label:"Conflicts of interest"}]
             defaultFont: "Helvetica", // Set default font
@@ -473,7 +474,16 @@ export class OrgChart {
             };
         });
 
+        this.data = function(data) {
+            attrs.data = data;
+            attrs.index = keyBy(data, x => x.id);
+        }
+
         this.initializeEnterExitUpdatePattern();
+    }
+
+    getNode(id) {
+        return this.getChartState().index[id];
     }
 
     initializeEnterExitUpdatePattern() {
@@ -691,6 +701,7 @@ export class OrgChart {
         const attrs = this.getChartState();
         if (obj && (attrs.parentNodeId(obj) == null || attrs.parentNodeId(obj) == attrs.nodeId(obj)) && attrs.data.length == 0) {
             attrs.data.push(obj);
+            attrs.index[attrs.nodeId(obj)] = obj;
             this.render()
             return this;
         }
@@ -705,6 +716,7 @@ export class OrgChart {
 
         if (obj._centered && !obj._expanded) obj._expanded = true;
         attrs.data.push(obj);
+        attrs.index[attrs.nodeId(obj)] = obj;
 
         // Update state of nodes and redraw graph
         this.updateNodesState();
@@ -726,6 +738,7 @@ export class OrgChart {
             }
             if ((obj)._centered && !(obj)._expanded) (obj)._expanded = true;
             attrs.data.push(obj);
+            attrs.index[attrs.nodeId(obj)] = obj;
         }
         this.updateNodesState();
         return this;
@@ -733,10 +746,42 @@ export class OrgChart {
 
     insertNodes(nodes) {
         const attrs = this.getChartState();
-        const nodesById = {};
-        nodes.forEach(node => nodesById[node.id] = node);
-        const data = attrs.data.filter(x => !nodesById[x.id]);
-        attrs.data = [...data, ...nodes];
+        const newNodesById = keyBy(nodes, x => attrs.nodeId(x));
+        const root = attrs.root;
+        const replacedNodes = attrs.data.map(node => {
+            const newNode = newNodesById[attrs.nodeId(node)];
+            if (newNodesById[attrs.nodeId(node)]) {
+                return {
+                    ...node,
+                    ...newNode
+                }
+            }
+            return node;
+        });
+        const missingNodesInData = nodes.filter(x => !this.getNode(x.id));
+        attrs.data = [...data, ...missingNodesInData];
+        attrs.index = keyBy(attrs.data, x => attrs.nodeId(x));
+        this.data.forEach(node => {
+            if (!this.getNode(attrs.parentId(node))) {
+                node.parentId = root.data.id;
+            }
+        })
+        this.updateNodesState();
+        return attrs.data;
+    }
+
+    replaceNodes(nodes) {
+        const attrs = this.getChartState();
+        const root = attrs.root.data;
+
+        nodes.forEach(node => {
+            if (!this.getNode(attrs.parentId(node))) {
+                node.parentId = attrs.nodeId(root.data);
+            }
+        });
+
+        attrs.data = [root, ...nodes]
+        attrs.index = keyBy(attrs.data, x => attrs.nodeId(x));
         this.updateNodesState();
         return attrs.data;
     }
@@ -762,6 +807,7 @@ export class OrgChart {
 
         // Filter out retrieved nodes and reassign data
         attrs.data = attrs.data.filter(d => !d._filteredOut);
+        attrs.index = keyBy(attrs.data, x => attrs.nodeId(x));
 
         if (attrs.data.length == 0) {
             this.render();
@@ -1977,4 +2023,11 @@ export class OrgChart {
         d3.select(window).on(`resize.${attrs.id}`, null);
         attrs.svg && attrs.svg.selectAll("*").remove();
     }
+}
+
+
+
+function keyBy(array, iterator) {
+    const obj = {};
+    array.forEach(item => obj[iterator(obj)] = obj);
 }

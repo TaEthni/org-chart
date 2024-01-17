@@ -420,6 +420,12 @@ export class OrgChart<Datum> {
     render(): this;
 
     /**
+     * This function can be invoked via chart.getNode API, and it returns the node by id
+     * @param id
+     */
+    getNode(id: string): Datum;
+
+    /**
      * This function can be invoked via chart.addNode API, and it adds node in tree at runtime
      * @param node
      */
@@ -437,6 +443,13 @@ export class OrgChart<Datum> {
      * @returns all the nodes of the tree
      */
     insertNodes(nodes: Datum[]): Datum[];
+
+     /**
+     * This function can be invoked via chart.replaceNodes API, and it replaces all nodes except the root
+     * @param nodes
+     * @returns all the nodes of the tree
+     */
+    replaceNodes(nodes: Datum[]): Datum[];
 
     /**
      * This function can be invoked via chart.removeNode API, and it removes node from tree at runtime
