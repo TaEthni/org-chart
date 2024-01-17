@@ -738,7 +738,7 @@ export class OrgChart {
         const data = attrs.data.filter(x => !nodesById[x.id]);
         attrs.data = [...data, ...nodes];
         this.updateNodesState();
-        return this.data;
+        return attrs.data;
     }
 
     // This function can be invoked via chart.removeNode API, and it removes node from tree at runtime
