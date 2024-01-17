@@ -736,7 +736,7 @@ export class OrgChart {
         const nodesById = {};
         nodes.forEach(node => nodesById[node.id] = node);
         const data = attrs.data.filter(x => !nodesById[x.id]);
-        this.data = [...data, ...nodes];
+        attrs.data = [...data, ...nodes];
         this.updateNodesState();
         return this.data;
     }
