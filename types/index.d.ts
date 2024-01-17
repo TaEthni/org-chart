@@ -442,7 +442,7 @@ export class OrgChart<Datum> {
      * @param nodes
      * @returns all the nodes of the tree
      */
-    insertNodes(nodes: Datum[]): Datum[];
+    insertNodes(nodes: Datum[], update: boolean = true): Datum[];
 
      /**
      * This function can be invoked via chart.replaceNodes API, and it replaces all nodes except the root

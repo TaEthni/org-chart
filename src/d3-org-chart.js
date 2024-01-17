@@ -745,7 +745,7 @@ export class OrgChart {
         return this;
     }
 
-    insertNodes(nodes) {
+    insertNodes(nodes, update = true) {
         const attrs = this.getChartState();
         const newNodesById = keyBy(nodes, x => attrs.nodeId(x));
         const root = attrs.root;
@@ -767,7 +767,9 @@ export class OrgChart {
         //         node.parentId = root.data.id;
         //     }
         // })
-        this.updateNodesState();
+        if (update) {
+            this.updateNodesState();
+        }
         return attrs.data;
     }
 
