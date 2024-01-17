@@ -2030,4 +2030,5 @@ export class OrgChart {
 function keyBy(array, iterator) {
     const obj = {};
     array.forEach(item => obj[iterator(obj)] = obj);
+    return obj;
 }
